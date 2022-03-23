@@ -1,4 +1,4 @@
-module github.com/boourns/yjsgo
+module github.com/boourns/yjsgo/yjs
 
 go 1.17
 
