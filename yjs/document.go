@@ -6,7 +6,6 @@ import (
 )
 
 type Document struct {
-	isolate *v8.Isolate
 	context *v8.Context
 	script *v8.UnboundScript
 }
@@ -14,22 +13,28 @@ type Document struct {
 //go:embed dist/bundle.js
 var source string
 
+var isolate *v8.Isolate
+var compiledScript *v8.UnboundScript
+var globalTemplate *v8.ObjectTemplate
+
 func NewDocument(initialState string) *Document {
 	var result Document
 	var err error
 
-	result.isolate = v8.NewIsolate()
+	if isolate == nil {
+		isolate = v8.NewIsolate()
 
-	result.script, err = result.isolate.CompileUnboundScript(source, "app.js", v8.CompileOptions{}) // compile script in new isolate with cached data
-	if err != nil {
-		panic(err)
+		compiledScript, err = isolate.CompileUnboundScript(source, "app.js", v8.CompileOptions{}) // compile script in new isolate with cached data
+		if err != nil {
+			panic(err)
+		}
+
+		globalTemplate = v8.NewObjectTemplate(isolate) // a template that represents a JS Object
 	}
 
-	glob := v8.NewObjectTemplate(result.isolate) // a template that represents a JS Object
+	result.context = v8.NewContext(isolate, globalTemplate)
 
-	result.context = v8.NewContext(result.isolate, glob)
-
-	_, err = result.script.Run(result.context)
+	_, err = compiledScript.Run(result.context)
 	if err != nil {
 		panic(err)
 	}
@@ -110,4 +115,8 @@ func (d *Document) set(name string, value interface{}) error {
 	global := d.context.Global()
 
 	return global.Set(name, value)
+}
+
+func (d *Document) Close() {
+	d.context.Close()
 }
