@@ -8,6 +8,9 @@ func TestBlah(t *testing.T) {
 	d1 := NewDocument("quick brown fox")
 	d2 := NewDocument("")
 
+	defer d1.Close()
+	defer d2.Close()
+
 	targetStateVector, err := d2.StateVector()
 	if err != nil {
 		t.Fatalf("Error: %v", err)
