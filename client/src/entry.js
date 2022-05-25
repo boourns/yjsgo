@@ -2,12 +2,15 @@ import * as Y from 'yjs'
 import { fromUint8Array, toUint8Array } from 'js-base64'
 
 var doc
+var root
 const key = "d"
 
 export const initialize = () => {
     doc = new Y.Doc()
+    root = doc.getMap("r")
     if (documentText && documentText.length > 0) {
-        doc.getText().insert(0, documentText)
+        root.set("d", new Y.Text())
+        root.get("d").insert(0, documentText)
     }
 
     return "initialized"
@@ -34,11 +37,15 @@ export const stateVector = () => {
 }
 
 export const toString = () => {
-    return doc.getText().toString()
+    return root.get("d").toString()
+}
+
+export const toJSON = () => {
+    return JSON.stringify(root.toJSON())
 }
 
 // Server doesn't actually modify the document, these are for testing
 
 export const insert = () => {
-    doc.getText().insert(insertPosition, insertText)
+    root.get("d").insert(insertPosition, insertText)
 }

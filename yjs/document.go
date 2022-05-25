@@ -66,6 +66,16 @@ func (d *Document) ToString() (string, error) {
 	return value.String(), nil
 }
 
+func (d *Document) ToJSON() (string, error) {
+	value, err := d.context.RunScript("entry.toJSON()", "app.js")
+
+	if err != nil {
+		return "", err
+	}
+
+	return value.String(), nil
+}
+
 func (d *Document) ApplyUpdate(encodedUpdate string) error {
 	err := d.set("encodedUpdate", encodedUpdate)
 	if err != nil {

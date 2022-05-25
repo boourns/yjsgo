@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestBlah(t *testing.T) {
+func TestDocumentWritingWorks(t *testing.T) {
 	d1 := NewDocument("quick brown fox")
 	d2 := NewDocument("")
 
@@ -36,6 +36,14 @@ func TestBlah(t *testing.T) {
 		t.Fatalf("error: %v", err)
 	}
 	if result != "quick brown fox" {
+		t.Fatalf("Expected d2 to sync to same state, got %v", result)
+	}
+
+	result, err = d2.ToJSON()
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+	if result != `{"d":"quick brown fox"}` {
 		t.Fatalf("Expected d2 to sync to same state, got %v", result)
 	}
 
