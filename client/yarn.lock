@@ -1150,6 +1150,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"y-pojo@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "y-pojo@npm:0.0.5"
+  peerDependencies:
+    yjs: ^13.5.38
+  checksum: bbd3b7f1ee4f277450712a845cc9f9ea027d6c6fafbd0d383865ef43718d97a2521de97c1516c9e3457c101dc41686a7f19df8c1c4335cceeb288f1e7d99c895
+  languageName: node
+  linkType: hard
+
 "yjs-go@workspace:.":
   version: 0.0.0-use.local
   resolution: "yjs-go@workspace:."
@@ -1158,6 +1167,7 @@ __metadata:
     js-base64: ^3.7.2
     webpack: ^5.61.0
     webpack-cli: ^4.3.0
+    y-pojo: ^0.0.5
     yjs: ^13.5.30
   languageName: unknown
   linkType: soft
