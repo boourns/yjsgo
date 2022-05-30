@@ -1150,12 +1150,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"y-pojo@npm:^0.0.5":
-  version: 0.0.5
-  resolution: "y-pojo@npm:0.0.5"
+"y-pojo@npm:^0.0.6":
+  version: 0.0.6
+  resolution: "y-pojo@npm:0.0.6"
   peerDependencies:
     yjs: ^13.5.38
-  checksum: bbd3b7f1ee4f277450712a845cc9f9ea027d6c6fafbd0d383865ef43718d97a2521de97c1516c9e3457c101dc41686a7f19df8c1c4335cceeb288f1e7d99c895
+  checksum: 35256a5d9859610d9d01903aebb74648e1ee01dd9748c088dee6ff037983ee7add969e1c6f59d6d1b47a279cfc2acbbdd5dcf12508328d7c7199268061291486
   languageName: node
   linkType: hard
 
@@ -1167,7 +1167,7 @@ __metadata:
     js-base64: ^3.7.2
     webpack: ^5.61.0
     webpack-cli: ^4.3.0
-    y-pojo: ^0.0.5
+    y-pojo: ^0.0.6
     yjs: ^13.5.30
   languageName: unknown
   linkType: soft
