@@ -50,5 +50,5 @@ export const toJSON = () => {
 // Server doesn't actually modify the document, these are for testing
 
 export const insert = () => {
-    root.get("d").insert(insertPosition, insertText)
+    root.get("_t").insert(insertPosition, insertText)
 }
