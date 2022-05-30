@@ -63,8 +63,6 @@ func NewDocument(initialText *string, initialObjectJson *string) *Document {
 		panic(err)
 	}
 
-	log.Println("returned: ", value.String())
-
 	if value.String() != "initialized" {
 		panic("failed to initialize yjs Document")
 	}
