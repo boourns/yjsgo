@@ -2,11 +2,11 @@ package yjs
 
 import (
 	_ "embed"
-	"log"
 	v8 "rogchap.com/v8go"
 )
 
 type Document struct {
+	complex bool
 	context *v8.Context
 	script *v8.UnboundScript
 }
@@ -18,7 +18,7 @@ var isolate *v8.Isolate
 var compiledScript *v8.UnboundScript
 var globalTemplate *v8.ObjectTemplate
 
-func NewDocument(initialText *string, initialObjectJson *string) *Document {
+func newDocument() Document {
 	var result Document
 	var err error
 
@@ -40,11 +40,47 @@ func NewDocument(initialText *string, initialObjectJson *string) *Document {
 		panic(err)
 	}
 
+	return result
+}
+
+func NewTextDocument(initialText *string) *Document {
+	var result Document
+	var err error
+
+	result = newDocument()
+	result.complex = false
+
+	err = result.set("complex", false)
+
 	if initialText != nil {
 		err = result.set("documentText", *initialText)
 	} else {
 		err = result.set("documentText", v8.Undefined(isolate))
 	}
+	if err != nil {
+		panic(err)
+	}
+
+	value, err := result.context.RunScript("entry.initialize()", "app.js")
+	if err != nil {
+		panic(err)
+	}
+
+	if value.String() != "initialized" {
+		panic("failed to initialize yjs Document")
+	}
+
+	return &result
+}
+
+func NewComplexDocument(initialObjectJson *string) *Document {
+	var result Document
+	var err error
+
+	result = newDocument()
+	result.complex = true
+
+	err = result.set("complex", true)
 	if err != nil {
 		panic(err)
 	}
@@ -70,8 +106,16 @@ func NewDocument(initialText *string, initialObjectJson *string) *Document {
 	return &result
 }
 
+
 func (d *Document) ToString() (string, error) {
-	value, err := d.context.RunScript("entry.toString()", "app.js")
+	var value *v8.Value
+	var err error
+
+	if d.complex {
+		value, err = d.context.RunScript("entry.toJSON()", "app.js")
+	} else {
+		value, err = d.context.RunScript("entry.toString()", "app.js")
+	}
 
 	if err != nil {
 		return "", err
@@ -80,15 +124,7 @@ func (d *Document) ToString() (string, error) {
 	return value.String(), nil
 }
 
-func (d *Document) ToJSON() (string, error) {
-	value, err := d.context.RunScript("entry.toJSON()", "app.js")
 
-	if err != nil {
-		return "", err
-	}
-
-	return value.String(), nil
-}
 
 func (d *Document) ApplyUpdate(encodedUpdate string) error {
 	err := d.set("encodedUpdate", encodedUpdate)

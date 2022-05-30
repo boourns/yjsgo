@@ -9,10 +9,10 @@ const key = "d"
 export const initialize = () => {
     doc = new Y.Doc()
     root = doc.getMap("r")
-    if (documentText && documentText.length > 0) {
+    if (!complex && documentText && documentText.length > 0) {
         root.set("_t", new Y.Text())
         root.get("_t").insert(0, documentText)
-    } else if (documentObject !== undefined) {
+    } else if (complex && documentObject !== undefined) {
         syncronize(root, JSON.parse(documentObject))
     }
 
@@ -40,7 +40,11 @@ export const stateVector = () => {
 }
 
 export const toString = () => {
-    return root.get("_t").toString()
+    if (complex) {
+        return toJSON()
+    } else {
+        return root.get("_t").toString()
+    }
 }
 
 export const toJSON = () => {
