@@ -4,9 +4,10 @@ import (
 	"testing"
 )
 
-func TestBlah(t *testing.T) {
-	d1 := NewDocument("quick brown fox")
-	d2 := NewDocument("")
+func TestDocumentWritingWorks(t *testing.T) {
+	fox := "quick brown fox"
+	d1 := NewDocument(&fox, nil)
+	d2 := NewDocument(nil, nil)
 
 	defer d1.Close()
 	defer d2.Close()
@@ -39,6 +40,14 @@ func TestBlah(t *testing.T) {
 		t.Fatalf("Expected d2 to sync to same state, got %v", result)
 	}
 
+	result, err = d2.ToJSON()
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+	if result != `{"_t":"quick brown fox"}` {
+		t.Fatalf("Expected d2 to sync to same state, got %v", result)
+	}
+
 	finalStateVector1, err := d1.StateVector()
 	if err != nil {
 		t.Fatalf("Error: %v", err)
@@ -52,10 +61,27 @@ func TestBlah(t *testing.T) {
 	}
 }
 
+func TestCreateFromJSON(t *testing.T) {
+	obj := `{"foo": [1, 2, 3]}`
+
+	d1 := NewDocument(nil, &obj)
+	result, err := d1.ToJSON()
+	if err != nil {
+		t.Fatalf("error: %v", err)
+	}
+
+	if result != `{"foo":[1,2,3]}` {
+		t.Fatalf("Expected d2 to sync to same state, got %v", result)
+	}
+}
+
 func BenchmarkApplyUpdates(b *testing.B) {
+	fox := "quick brown fox"
+	blank := ""
+
 	for i := 0; i < b.N * 100000; i++ {
-		d1 := NewDocument("quick brown fox")
-		d2 := NewDocument("")
+		d1 := NewDocument(&fox, nil)
+		d2 := NewDocument(&blank, nil)
 
 		for j := 0; j < 10; j++ {
 			d1.Insert(0,"a")
@@ -75,7 +101,7 @@ func BenchmarkApplyUpdates(b *testing.B) {
 			if err != nil {
 				b.Fatalf("Error: %v", err)
 			}
-			d3 := NewDocument(flatText)
+			d3 := NewDocument(&flatText, nil)
 			_, err = d3.EncodeStateAsUpdate("")
 			d3.Close()
 		}

@@ -1,13 +1,19 @@
 import * as Y from 'yjs'
+import {syncronize} from 'y-pojo'
 import { fromUint8Array, toUint8Array } from 'js-base64'
 
 var doc
+var root
 const key = "d"
 
 export const initialize = () => {
     doc = new Y.Doc()
+    root = doc.getMap("r")
     if (documentText && documentText.length > 0) {
-        doc.getText().insert(0, documentText)
+        root.set("_t", new Y.Text())
+        root.get("_t").insert(0, documentText)
+    } else if (documentObject !== undefined) {
+        syncronize(root, JSON.parse(documentObject))
     }
 
     return "initialized"
@@ -34,11 +40,15 @@ export const stateVector = () => {
 }
 
 export const toString = () => {
-    return doc.getText().toString()
+    return root.get("_t").toString()
+}
+
+export const toJSON = () => {
+    return JSON.stringify(root.toJSON())
 }
 
 // Server doesn't actually modify the document, these are for testing
 
 export const insert = () => {
-    doc.getText().insert(insertPosition, insertText)
+    root.get("_t").insert(insertPosition, insertText)
 }

@@ -2,6 +2,7 @@ package yjs
 
 import (
 	_ "embed"
+	"log"
 	v8 "rogchap.com/v8go"
 )
 
@@ -17,7 +18,7 @@ var isolate *v8.Isolate
 var compiledScript *v8.UnboundScript
 var globalTemplate *v8.ObjectTemplate
 
-func NewDocument(initialState string) *Document {
+func NewDocument(initialText *string, initialObjectJson *string) *Document {
 	var result Document
 	var err error
 
@@ -39,7 +40,20 @@ func NewDocument(initialState string) *Document {
 		panic(err)
 	}
 
-	err = result.set("documentText", initialState)
+	if initialText != nil {
+		err = result.set("documentText", *initialText)
+	} else {
+		err = result.set("documentText", v8.Undefined(isolate))
+	}
+	if err != nil {
+		panic(err)
+	}
+
+	if initialObjectJson != nil {
+		err = result.set("documentObject", *initialObjectJson)
+	} else {
+		err = result.set("documentObject", v8.Undefined(isolate))
+	}
 	if err != nil {
 		panic(err)
 	}
@@ -58,6 +72,16 @@ func NewDocument(initialState string) *Document {
 
 func (d *Document) ToString() (string, error) {
 	value, err := d.context.RunScript("entry.toString()", "app.js")
+
+	if err != nil {
+		return "", err
+	}
+
+	return value.String(), nil
+}
+
+func (d *Document) ToJSON() (string, error) {
+	value, err := d.context.RunScript("entry.toJSON()", "app.js")
 
 	if err != nil {
 		return "", err
