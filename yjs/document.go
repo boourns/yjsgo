@@ -2,7 +2,6 @@ package yjs
 
 import (
 	_ "embed"
-	"log"
 	v8 "rogchap.com/v8go"
 )
 
