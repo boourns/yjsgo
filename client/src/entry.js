@@ -4,14 +4,17 @@ import { fromUint8Array, toUint8Array } from 'js-base64'
 
 var doc
 var root
-const key = "d"
 
 export const initialize = () => {
     doc = new Y.Doc()
-    root = doc.getMap("r")
+    if (complex) {
+        root = doc.getMap("r")
+    } else {
+        root = doc.getText("t")
+    }
+
     if (!complex && documentText && documentText.length > 0) {
-        root.set("_t", new Y.Text())
-        root.get("_t").insert(0, documentText)
+        root.insert(0, documentText)
     } else if (complex && documentObject !== undefined) {
         syncronize(root, JSON.parse(documentObject))
     }
@@ -41,18 +44,14 @@ export const stateVector = () => {
 
 export const toString = () => {
     if (complex) {
-        return toJSON()
+        return JSON.stringify(root.toJSON())
     } else {
-        return root.get("_t").toString()
+        return root.toString()
     }
-}
-
-export const toJSON = () => {
-    return JSON.stringify(root.toJSON())
 }
 
 // Server doesn't actually modify the document, these are for testing
 
 export const insert = () => {
-    root.get("_t").insert(insertPosition, insertText)
+    root.insert(insertPosition, insertText)
 }

@@ -111,11 +111,7 @@ func (d *Document) ToString() (string, error) {
 	var value *v8.Value
 	var err error
 
-	if d.complex {
-		value, err = d.context.RunScript("entry.toJSON()", "app.js")
-	} else {
-		value, err = d.context.RunScript("entry.toString()", "app.js")
-	}
+	value, err = d.context.RunScript("entry.toString()", "app.js")
 
 	if err != nil {
 		return "", err
