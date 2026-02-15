@@ -2,7 +2,7 @@ package yjs
 
 import (
 	_ "embed"
-	v8 "rogchap.com/v8go"
+	v8 "github.com/tommie/v8go"
 )
 
 type Document struct {
@@ -34,6 +34,27 @@ func newDocument() Document {
 	}
 
 	result.context = v8.NewContext(isolate, globalTemplate)
+
+	// Inject crypto object for JavaScript bundle
+	_, err = result.context.RunScript(`
+	globalThis.crypto = {
+		getRandomValues: function(arr) {
+			for (var i = 0; i < arr.length; i++) {
+				arr[i] = Math.floor(Math.random() * 256);
+			}
+			return arr;
+		},
+		randomUUID: function() {
+			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+				var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+				return v.toString(16);
+			});
+		}
+	};
+	`, "crypto-setup.js")
+	if err != nil {
+		panic(err)
+	}
 
 	_, err = compiledScript.Run(result.context)
 	if err != nil {

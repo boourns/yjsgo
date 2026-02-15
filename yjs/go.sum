@@ -1,2 +1,14 @@
-rogchap.com/v8go v0.7.0 h1:kgjbiO4zE5itA962ze6Hqmbs4HgZbGzmueCXsZtremg=
-rogchap.com/v8go v0.7.0/go.mod h1:MxgP3pL2MW4dpme/72QRs8sgNMmM0pRc8DPhcuLWPAs=
+github.com/tommie/v8go v0.34.0 h1:2NpX9bLE3DOO6cO2moOHsBkU70skMO6RB1tAY887G6c=
+github.com/tommie/v8go v0.34.0/go.mod h1:WX8r9Nwipf7pABuvwFpu6AFDpm3VSSvch2avhK2FMlg=
+github.com/tommie/v8go/deps/android_amd64 v0.0.0-20250515043113-5dcc98077472 h1:ALzwSQMOOUw1FN/tYp+a81w5AxkiR33N5jGEmFWBqfw=
+github.com/tommie/v8go/deps/android_amd64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:+SU4RWSqMXAx2oR/Gzkyc1YAG6F8SCzttMv3sZkh+qY=
+github.com/tommie/v8go/deps/android_arm64 v0.0.0-20250515043113-5dcc98077472 h1:XDh1sWxxWPEQv+vxj5mbQaRqUfEycVvb8Z0r0NGSYf0=
+github.com/tommie/v8go/deps/android_arm64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:cR4ynUc528GmLCLOb3c1iM2d6qZ5DCVHh+eAD7sJDBQ=
+github.com/tommie/v8go/deps/darwin_amd64 v0.0.0-20250515043113-5dcc98077472 h1:cPvHuTaPiOENBTLNaJ1ZyZqw151XWtENUdGFbGFPE1U=
+github.com/tommie/v8go/deps/darwin_amd64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:0qn9w9F7mniTrixPYggJNQQtpAkb9OKY3STy3SSEBi4=
+github.com/tommie/v8go/deps/darwin_arm64 v0.0.0-20250515043113-5dcc98077472 h1:oQcEJclfhEbB7P2u9lephEyIPjud3TEmqDppy9mwm1E=
+github.com/tommie/v8go/deps/darwin_arm64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:bd8hssu+JaGC4mIE9SukKia0TYs5v977mNodhgpJrdo=
+github.com/tommie/v8go/deps/linux_amd64 v0.0.0-20250515043113-5dcc98077472 h1:6gqHCPNsYbcSrne3RhsEHRycHHYORPhi/CHyc2WYzvE=
+github.com/tommie/v8go/deps/linux_amd64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:ZKG7g6Rah4/ZRzb07qFrQI/EPSm2PMj1cN/9y4fxgO8=
+github.com/tommie/v8go/deps/linux_arm64 v0.0.0-20250515043113-5dcc98077472 h1:M4fdTyPWq8UbO1OY/5nwCkC3iOIVVfD1YrxnNANRm4U=
+github.com/tommie/v8go/deps/linux_arm64 v0.0.0-20250515043113-5dcc98077472/go.mod h1:B/myVnZ82IRgW//OzDnHArcOzW8Yq7FbWnMnYPbZ0Hc=
